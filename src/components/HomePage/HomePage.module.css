@@ -23,10 +23,15 @@ body {
 
 .heroBtn {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   font-size: 20px;
   height: 50px;
   font-weight: 500;
+}
+
+.modal :global(.ant-modal-title),
+.modal :global(.ant-modal-close-icon) {
+  font-size: 18px;
 }
