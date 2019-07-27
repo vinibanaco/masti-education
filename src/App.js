@@ -1,11 +1,15 @@
 import React from 'react';
-import { Button } from 'antd'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import HomePage from './components/HomePage/HomePage'
+import './App.css'
 
 function App() {
   return (
-    <div className="App">
-      <Button type="primary">Button</Button>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" component={HomePage} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 
