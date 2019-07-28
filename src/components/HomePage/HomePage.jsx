@@ -26,10 +26,8 @@ class HomePage extends React.Component {
   render() {
     return (
       <div className={css.heroContainer}>
-        <h1 className={css.heroText}>
-          Bem-vindo à NOME, o repositório de conhecimentos da Masti
-          Education!
-        </h1>
+        <h1 className={css.heroTitle}>Bem-vindo à NOME</h1>
+        <p className={css.heroSubtitle}>O repositório de conhecimentos da Masti Education!</p>
 
         <Button
           type="primary"

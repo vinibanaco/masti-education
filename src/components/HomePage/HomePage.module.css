@@ -11,23 +11,30 @@ body {
     url("../../images/hero-image.jpg");
 }
 
-.heroText {
+.heroTitle {
   color: #fff;
-  font-size: 38px;
+  font-size: 55px;
   text-align: center;
   margin: 0 auto;
-  padding-top: 60px;
-  max-width: 25em;
+  padding-top: 46px;
   font-weight: 500;
+  font-family: "Raleway";
+}
+
+.heroSubtitle {
+  text-align: center;
+  color: #dedede;
+  font-size: 17px;
+  margin: 0;
 }
 
 .heroBtn {
   position: absolute;
-  top: 55%;
+  bottom: 100px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 20px;
-  height: 50px;
+  font-size: 19px;
+  height: calc(19px * 2.5);
   font-weight: 500;
 }
 
