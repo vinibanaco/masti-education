@@ -1,6 +1,7 @@
 import React from 'react'
 import css from './HomePage.module.css'
 import { Button, Modal } from 'antd'
+import RegistrationForm from '../RegistrationForm/RegistrationForm'
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -34,6 +35,25 @@ class HomePage extends React.Component {
           size="large"
           className={css.heroBtn}
           onClick={this.handleClick}
+        >Crie uma conta</Button>
+
+        <Modal
+          title="CADASTRO"
+          centered
+          footer={null}
+          visible={this.state.isModalVisible}
+          onCancel={() => this.handleModalClose()}
+          bodyStyle={{ fontSize: '16px' }}
+          wrapClassName={css.modal}
+        >
+          <RegistrationForm />
+        </Modal>
+
+        {/* <Button
+          type="primary"
+          size="large"
+          className={css.heroBtn}
+          onClick={this.handleClick}
         >Acessar o repositório</Button>
 
         <Modal
@@ -54,7 +74,7 @@ class HomePage extends React.Component {
             Só não desanime agora! Cheque outros conteúdos no nosso
             site: <a href="https://masti.com.br/">masti.com.br</a>
           </p>
-        </Modal>
+        </Modal> */}
       </div>
     )
   }
