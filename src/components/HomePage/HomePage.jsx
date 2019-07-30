@@ -20,7 +20,7 @@ class HomePage extends React.Component {
     })
   }
 
-  handleModalClose() {
+  handleModalClose = () => {
     this.setState({
       isModalVisible: false
     })
@@ -44,7 +44,7 @@ class HomePage extends React.Component {
           centered
           footer={null}
           visible={this.state.isModalVisible}
-          onCancel={() => this.handleModalClose()}
+          onCancel={this.handleModalClose}
           bodyStyle={{ fontSize: '16px' }}
           wrapClassName={css.modal}
         >
