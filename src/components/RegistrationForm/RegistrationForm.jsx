@@ -1,12 +1,40 @@
 import React from 'react'
 import { Form, Input, Select, InputNumber, Button } from 'antd'
 
-// onBlur={this.handleConfirmBlur}
-
 class BaseForm extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      passwordConfirmDirty: false
+    }
+  }
+
+  handleConfirmPasswordBlur = e => {
+    const { value } = e.target
+    this.setState({
+      passwordConfirmDirty: this.state.passwordConfirmDirty || !!value
+    })
+  }
+
+  validateToNextPassword = (_, value, callback) => {
+    const { form } = this.props
+    if (value && this.state.passwordConfirmDirty) {
+      form.validateFields(['confirmPassword'], { force: true })
+    }
+    callback()
+  }
+
+  compareToFirstPassword = (_, value, callback) => {
+    const { form } = this.props
+    if (value && value !== form.getFieldValue('password')) {
+      callback('As senhas estão diferentes')
+    } else {
+      callback()
+    }
+  }
+
   render() {
-    const Option = Select.Option
-    const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -29,6 +57,9 @@ class BaseForm extends React.Component {
         },
       }
     }
+
+    const { Option } = Select
+    const { getFieldDecorator } = this.props.form
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -64,7 +95,7 @@ class BaseForm extends React.Component {
         </Form.Item>
         <Form.Item label="Confirmar e-mail">
           {
-            getFieldDecorator('email', {
+            getFieldDecorator('confirmEmail', {
               rules: [
                 {
                   required: true,
@@ -96,7 +127,7 @@ class BaseForm extends React.Component {
         </Form.Item>
         <Form.Item label="Confirmar senha">
           {
-            getFieldDecorator('password', {
+            getFieldDecorator('confirmPassword', {
               rules: [
                 {
                   required: true,
@@ -106,7 +137,7 @@ class BaseForm extends React.Component {
                   validator: this.compareToFirstPassword,
                 }
               ]
-            })(<Input.Password />)
+            })(<Input.Password onBlur={this.handleConfirmPasswordBlur} />)
           }
         </Form.Item>
 
