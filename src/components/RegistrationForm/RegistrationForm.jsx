@@ -6,7 +6,32 @@ class BaseForm extends React.Component {
     super(props)
 
     this.state = {
+      emailConfirmDirty: false,
       passwordConfirmDirty: false
+    }
+  }
+
+  handleConfirmEmailBlur = e => {
+    const { value } = e.target
+    this.setState({
+      emailConfirmDirty: this.state.emailConfirmDirty || !!value
+    })
+  }
+
+  validateToNextEmail = (_, value, callback) => {
+    const { form } = this.props
+    if (value && this.state.emailConfirmDirty) {
+      form.validateFields(['confirmEmail'], { force: true })
+    }
+    callback()
+  }
+
+  compareToFirstEmail = (_, value, callback) => {
+    const { form } = this.props
+    if (value && value !== form.getFieldValue('email')) {
+      callback('As senhas estão diferentes')
+    } else {
+      callback()
     }
   }
 
@@ -105,7 +130,7 @@ class BaseForm extends React.Component {
                   validator: this.compareToFirstEmail,
                 }
               ]
-            })(<Input />)
+            })(<Input onBlur={this.handleConfirmEmailBlur} />)
           }
         </Form.Item>
 
@@ -137,7 +162,9 @@ class BaseForm extends React.Component {
                   validator: this.compareToFirstPassword,
                 }
               ]
-            })(<Input.Password onBlur={this.handleConfirmPasswordBlur} />)
+            })(
+              <Input.Password onBlur={this.handleConfirmPasswordBlur} />
+            )
           }
         </Form.Item>
 
