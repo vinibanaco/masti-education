@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { Form, Input, Select, InputNumber, Button } from 'antd'
 
 class BaseForm extends React.Component {
@@ -11,12 +12,7 @@ class BaseForm extends React.Component {
     }
   }
 
-  handleConfirmEmailBlur = e => {
-    const { value } = e.target
-    this.setState({
-      emailConfirmDirty: this.state.emailConfirmDirty || !!value
-    })
-  }
+  /* ======== VALIDAÇÃO ======== */
 
   validateToNextEmail = (_, value, callback) => {
     const { form } = this.props
@@ -35,13 +31,6 @@ class BaseForm extends React.Component {
     }
   }
 
-  handleConfirmPasswordBlur = e => {
-    const { value } = e.target
-    this.setState({
-      passwordConfirmDirty: this.state.passwordConfirmDirty || !!value
-    })
-  }
-
   validateToNextPassword = (_, value, callback) => {
     const { form } = this.props
     if (value && this.state.passwordConfirmDirty) {
@@ -58,12 +47,43 @@ class BaseForm extends React.Component {
     callback()
   }
 
+  /* ======== VERIFICAÇÃO ======== */
+
   verifyAge = (_, value, callback) => {
     if (value < 0 || value > 120) {
       callback('Ensira uma idade válida')
     }
     callback()
   }
+
+  /* ======== HANDLES ======== */
+
+  // Retira o estilo de erro do campo caso este tenha sido corrigido
+  handleConfirmPasswordBlur = e => {
+    const { value } = e.target
+    this.setState({
+      passwordConfirmDirty: this.state.passwordConfirmDirty || !!value
+    })
+  }
+
+  handleConfirmEmailBlur = e => {
+    const { value } = e.target
+    this.setState({
+      emailConfirmDirty: this.state.emailConfirmDirty || !!value
+    })
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+
+    // Revalida os campos obrigatórios do formulário
+    this.props.form.validateFields(err => {
+      if (!err)
+        this.props.history.push('/dashboard')
+    })
+  }
+
+  /* ======== REACT METHODS ======== */
 
   render() {
     const formItemLayout = {
@@ -94,6 +114,7 @@ class BaseForm extends React.Component {
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+
         {/* Nome */}
         <Form.Item label="Nome">
           {getFieldDecorator('username', {
@@ -212,7 +233,7 @@ class BaseForm extends React.Component {
           )}
         </Form.Item>
 
-        {/* Cadastrar */}
+        {/* Botão de cadastro */}
         <Form.Item {...buttonFormItemLayout}>
           <Button type="primary" htmlType="submit">Cadastrar</Button>
         </Form.Item>
@@ -222,4 +243,4 @@ class BaseForm extends React.Component {
 }
 
 const RegistrationForm = Form.create({ name: 'registration' })(BaseForm)
-export default RegistrationForm
+export default withRouter(RegistrationForm)
