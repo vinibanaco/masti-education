@@ -29,7 +29,7 @@ class BaseForm extends React.Component {
   compareToFirstEmail = (_, value, callback) => {
     const { form } = this.props
     if (value && value !== form.getFieldValue('email')) {
-      callback('As senhas estão diferentes')
+      callback('Os emails estão diferentes')
     } else {
       callback()
     }
@@ -102,8 +102,8 @@ class BaseForm extends React.Component {
           }
         </Form.Item>
 
-        {/* E-mail */}
-        <Form.Item label="E-mail">
+        {/* Email */}
+        <Form.Item label="Email">
           {
             getFieldDecorator('email', {
               rules: [
@@ -112,13 +112,17 @@ class BaseForm extends React.Component {
                   message: 'Campo obrigatório'
                 },
                 {
+                  type: 'email',
+                  message: 'Ensira um email válido'
+                },
+                {
                   validator: this.validateToNextEmail,
                 }
               ]
             })(<Input />)
           }
         </Form.Item>
-        <Form.Item label="Confirmar e-mail">
+        <Form.Item label="Confirmar email">
           {
             getFieldDecorator('confirmEmail', {
               rules: [
@@ -183,7 +187,9 @@ class BaseForm extends React.Component {
 
         {/* Idade */}
         <Form.Item label="Idade">
-          <InputNumber onChange={this.handleNumberChange} />
+          <InputNumber style={{ width: '100%' }}
+            onChange={this.handleNumberChange}
+          />
         </Form.Item>
 
         {/* Cadastrar */}
