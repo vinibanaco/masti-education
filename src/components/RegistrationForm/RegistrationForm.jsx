@@ -54,9 +54,15 @@ class BaseForm extends React.Component {
     const { form } = this.props
     if (value && value !== form.getFieldValue('password')) {
       callback('As senhas estão diferentes')
-    } else {
-      callback()
     }
+    callback()
+  }
+
+  verifyAge = (_, value, callback) => {
+    if (value < 0 || value > 120) {
+      callback('Ensira uma idade válida')
+    }
+    callback()
   }
 
   render() {
@@ -90,106 +96,120 @@ class BaseForm extends React.Component {
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         {/* Nome */}
         <Form.Item label="Nome">
-          {
-            getFieldDecorator('username', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Campo obrigatório'
-                }
-              ]
-            })(<Input />)
-          }
+          {getFieldDecorator('username', {
+            rules: [
+              {
+                required: true,
+                message: 'Campo obrigatório'
+              },
+              {
+                max: 50,
+                message: 'Ensira uma senha com no máximo 50 caracteres'
+              }
+            ]
+          })(<Input />)}
         </Form.Item>
 
         {/* Email */}
         <Form.Item label="Email">
-          {
-            getFieldDecorator('email', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Campo obrigatório'
-                },
-                {
-                  type: 'email',
-                  message: 'Ensira um email válido'
-                },
-                {
-                  validator: this.validateToNextEmail,
-                }
-              ]
-            })(<Input />)
-          }
+          {getFieldDecorator('email', {
+            rules: [
+              {
+                required: true,
+                message: 'Campo obrigatório',
+              },
+              {
+                max: 255,
+                message: 'Ensira um email com no máximo 255 caracteres'
+              },
+              {
+                type: 'email',
+                message: 'Ensira um email válido'
+              },
+              {
+                validator: this.validateToNextEmail,
+              }
+            ]
+          })(<Input />)}
         </Form.Item>
         <Form.Item label="Confirmar email">
-          {
-            getFieldDecorator('confirmEmail', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Campo obrigatório'
-                },
-                {
-                  validator: this.compareToFirstEmail,
-                }
-              ]
-            })(<Input onBlur={this.handleConfirmEmailBlur} />)
-          }
+          {getFieldDecorator('confirmEmail', {
+            rules: [
+              {
+                required: true,
+                message: 'Campo obrigatório'
+              },
+              {
+                validator: this.compareToFirstEmail
+              }
+            ]
+          })(<Input onBlur={this.handleConfirmEmailBlur} />)}
         </Form.Item>
 
         {/* Senha */}
         <Form.Item label="Senha">
-          {
-            getFieldDecorator('password', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Campo obrigatório'
-                },
-                {
-                  validator: this.validateToNextPassword,
-                }
-              ]
-            })(<Input.Password />)
-          }
+          {getFieldDecorator('password', {
+            rules: [
+              {
+                required: true,
+                message: 'Campo obrigatório'
+              },
+              {
+                min: 8,
+                message: 'Ensira uma senha com pelo menos 8 caracteres'
+              },
+              {
+                max: 50,
+                message: 'Ensira uma senha com no máximo 50 caracteres'
+              },
+              {
+                validator: this.validateToNextPassword
+              }
+            ]
+          })(<Input.Password />)}
         </Form.Item>
         <Form.Item label="Confirmar senha">
-          {
-            getFieldDecorator('confirmPassword', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Campo obrigatório'
-                },
-                {
-                  validator: this.compareToFirstPassword,
-                }
-              ]
-            })(
-              <Input.Password onBlur={this.handleConfirmPasswordBlur} />
-            )
-          }
+          {getFieldDecorator('confirmPassword', {
+            rules: [
+              {
+                required: true,
+                message: 'Campo obrigatório'
+              },
+              {
+                validator: this.compareToFirstPassword
+              }
+            ]
+          })(
+            <Input.Password onBlur={this.handleConfirmPasswordBlur} />
+          )}
         </Form.Item>
 
         {/* Gênero */}
         <Form.Item label="Gênero">
-          {
-            getFieldDecorator('gender')(
-              <Select onChange={this.handleSelectChange}>
-                <Option value="male">Masculino</Option>
-                <Option value="female">Feminino</Option>
-                <Option value="empty">Prefiro não divulgar</Option>
-              </Select>
-            )
-          }
+          {getFieldDecorator('gender')(
+            <Select onChange={this.handleSelectChange}>
+              <Option value="male">Masculino</Option>
+              <Option value="female">Feminino</Option>
+              <Option value="empty">Prefiro não divulgar</Option>
+            </Select>
+          )}
         </Form.Item>
 
         {/* Idade */}
         <Form.Item label="Idade">
-          <InputNumber style={{ width: '100%' }}
-            onChange={this.handleNumberChange}
-          />
+          {getFieldDecorator('age', {
+            rules: [
+              {
+                type: 'number',
+                message: 'Ensira uma idade válida'
+              }
+            ]
+          })(
+            <InputNumber
+              style={{ width: '100%' }}
+              onChange={this.handleNumberChange}
+            />
+          )}
         </Form.Item>
 
         {/* Cadastrar */}
