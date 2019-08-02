@@ -77,9 +77,9 @@ class BaseForm extends React.Component {
     e.preventDefault()
 
     // Revalida os campos obrigatórios do formulário
-    this.props.form.validateFields(err => {
+    this.props.form.validateFields((err, values) => {
       if (!err)
-        this.props.history.push('/dashboard')
+        this.props.history.push('/dashboard', values)
     })
   }
 
@@ -117,7 +117,7 @@ class BaseForm extends React.Component {
 
         {/* Nome */}
         <Form.Item label="Nome">
-          {getFieldDecorator('username', {
+          {getFieldDecorator('name', {
             rules: [
               {
                 required: true,
@@ -209,9 +209,11 @@ class BaseForm extends React.Component {
         <Form.Item label="Gênero">
           {getFieldDecorator('gender')(
             <Select onChange={this.handleSelectChange}>
-              <Option value="male">Masculino</Option>
-              <Option value="female">Feminino</Option>
-              <Option value="empty">Prefiro não divulgar</Option>
+              <Option value="Masculino">Masculino</Option>
+              <Option value="Feminino">Feminino</Option>
+              <Option value="Prefiro não divulgar">
+                Prefiro não divulgar
+              </Option>
             </Select>
           )}
         </Form.Item>
