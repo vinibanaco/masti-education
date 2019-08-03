@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Modal } from 'antd'
 
 import css from './HomePage.module.css'
+import LoginForm from '../LoginForm/LoginForm'
 import RegistrationForm from '../RegistrationForm/RegistrationForm'
 import { name } from '../../variables.js'
 
@@ -61,7 +62,7 @@ class HomePage extends React.Component {
           >Acessar o repositório</Button>
 
           <Modal
-            title="EM BREVE!!!"
+            title="LOGIN"
             centered
             footer={null}
             visible={this.state.isModalLoginVisible}
@@ -69,15 +70,7 @@ class HomePage extends React.Component {
             bodyStyle={{ fontSize: '16px' }}
             wrapClassName={css.modal}
           >
-            <p>
-              Essa funcionalidade ainda não está disponível no momento,
-              mas nosso grupo de desenvolvedores está fazendo o possível
-              para que ela esteja pronta quanto antes.
-            </p>
-            <p>
-              Só não desanime agora! Cheque outros conteúdos no nosso
-              site: <a href="https://masti.com.br/">masti.com.br</a>
-            </p>
+            <LoginForm />
           </Modal>
 
           {/* ======== REGISTRATION ======== */}
