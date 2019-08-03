@@ -12,7 +12,7 @@ class BaseForm extends React.Component {
     }
   }
 
-  /* ======== VALIDAÇÃO ======== */
+  /* ======== VALIDATION ======== */
 
   validateToNextEmail = (_, value, callback) => {
     const { form } = this.props
@@ -47,7 +47,7 @@ class BaseForm extends React.Component {
     callback()
   }
 
-  /* ======== VERIFICAÇÃO ======== */
+  /* ======== VERIFICATION ======== */
 
   verifyAge = (_, value, callback) => {
     if (value < 0 || value > 120) {
@@ -115,7 +115,7 @@ class BaseForm extends React.Component {
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
 
-        {/* Nome */}
+        {/* Name */}
         <Form.Item label="Nome">
           {getFieldDecorator('name', {
             rules: [
@@ -167,7 +167,7 @@ class BaseForm extends React.Component {
           })(<Input onBlur={this.handleConfirmEmailBlur} />)}
         </Form.Item>
 
-        {/* Senha */}
+        {/* Password */}
         <Form.Item label="Senha">
           {getFieldDecorator('password', {
             rules: [
@@ -205,7 +205,7 @@ class BaseForm extends React.Component {
           )}
         </Form.Item>
 
-        {/* Gênero */}
+        {/* Gender */}
         <Form.Item label="Gênero">
           {getFieldDecorator('gender')(
             <Select onChange={this.handleSelectChange}>
@@ -218,7 +218,7 @@ class BaseForm extends React.Component {
           )}
         </Form.Item>
 
-        {/* Idade */}
+        {/* Age */}
         <Form.Item label="Idade">
           {getFieldDecorator('age', {
             rules: [
@@ -235,7 +235,7 @@ class BaseForm extends React.Component {
           )}
         </Form.Item>
 
-        {/* Botão de cadastro */}
+        {/* Registration Button */}
         <Form.Item {...buttonFormItemLayout}>
           <Button type="primary" htmlType="submit">Cadastrar</Button>
         </Form.Item>
