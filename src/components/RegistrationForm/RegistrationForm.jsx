@@ -224,6 +224,8 @@ class BaseForm extends React.Component {
             rules: [
               {
                 type: 'number',
+                min: 1,
+                max: 119,
                 message: 'Ensira uma idade válida'
               }
             ]
