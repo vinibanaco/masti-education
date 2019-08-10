@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import { Form, Input, Select, InputNumber, Button } from 'antd'
 
@@ -78,8 +79,17 @@ class BaseForm extends React.Component {
 
     // Revalida os campos obrigatórios do formulário
     this.props.form.validateFields((err, values) => {
-      if (!err)
-        this.props.history.push('/dashboard', values)
+      if (!err) {
+        axios.post('http://localhost:4000/users', values)
+          .then(response => {
+            localStorage.setItem('token', response.data.accessToken)
+
+            this.props.history.push('/dashboard', values)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
     })
   }
 
