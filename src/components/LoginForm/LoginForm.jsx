@@ -17,7 +17,7 @@ class BaseForm extends React.Component {
 
         axios.post('http://localhost:4000/users/login', payload)
           .then(response => {
-      if (!err)
+            localStorage.setItem('token', response.data)
 
             this.props.history.push('/dashboard', values)
           })
