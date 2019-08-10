@@ -9,8 +9,22 @@ class BaseForm extends React.Component {
 
     // Revalida os campos obrigatórios do formulário
     this.props.form.validateFields((err, values) => {
+      if (!err) {
+        let payload = {
+          username: values['email'],
+          password: values['password']
+        }
+
+        axios.post('http://localhost:4000/users/login', payload)
+          .then(response => {
       if (!err)
-        this.props.history.push('/dashboard', values)
+
+            this.props.history.push('/dashboard', values)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
     })
   }
 
