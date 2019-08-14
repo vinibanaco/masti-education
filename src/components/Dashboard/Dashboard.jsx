@@ -1,8 +1,30 @@
 import React from 'react'
+import axios from 'axios'
 
 class Dashboard extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      user: {}
+    }
+  }
 
   /* ======== FUNCTIONS ======== */
+
+  getUser = () => {
+    const payload = {
+      headers: { 'authorization': localStorage.getItem('token') }
+    }
+
+    axios.get('http://localhost:4000/users/profile', payload)
+      .then(response => {
+        this.setState({ user: response.data })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
   renderGender = gender => {
     if (gender)
@@ -19,7 +41,8 @@ class Dashboard extends React.Component {
   /* ======== REACT METHODS ======== */
 
   render() {
-    const user = this.props.location.state
+    const { user } = this.state
+    this.getUser()
 
     return (
       <div>
