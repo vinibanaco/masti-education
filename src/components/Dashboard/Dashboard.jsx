@@ -27,15 +27,19 @@ class Dashboard extends React.Component {
   }
 
   renderGender = gender => {
-    if (gender)
+    if (gender && gender !== 0) {
       return <p>Gênero: {gender}</p>
-    return null
+    }
+
+    return
   }
 
   renderAge = age => {
-    if (age)
+    if (age && age !== 0) {
       return <p>Idade: {age}</p>
-    return null
+    }
+
+    return
   }
 
   /* ======== REACT METHODS ======== */
