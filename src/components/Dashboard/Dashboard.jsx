@@ -28,7 +28,12 @@ class Dashboard extends React.Component {
 
   renderGender = gender => {
     if (gender && gender !== 0) {
-      return <p>Gênero: {gender}</p>
+      let strGender = 'Masculino'
+      if (gender === 2) {
+        strGender = 'Feminino'
+      }
+
+      return <p>Gênero: {strGender}</p>
     }
 
     return
