@@ -15,6 +15,7 @@ class BaseForm extends React.Component {
           password: values['password']
         }
 
+        // Conecta com a API localizada em 'aula13/api-bootcamp'
         axios.post('http://localhost:4000/users/login', payload)
           .then(response => {
             localStorage.setItem('token', response.data)
