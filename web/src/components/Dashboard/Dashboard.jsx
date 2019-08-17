@@ -10,11 +10,11 @@ class Dashboard extends React.Component {
     }
   }
 
-  /* ======== FUNCTIONS ======== */
+  /* ======== REACT METHODS ======== */
 
-  getUser = () => {
+  componentDidMount() {
     const payload = {
-      headers: { 'authorization': localStorage.getItem('token') }
+      headers: { 'Authorization': localStorage.getItem('token') }
     }
 
     axios.get('http://localhost:4000/users/profile', payload)
@@ -26,34 +26,8 @@ class Dashboard extends React.Component {
       })
   }
 
-  renderGender = gender => {
-    // In the database, 'gender = 0' is the same as undefined
-    if (gender && gender !== "0") {
-      let strGender = 'Masculino'
-      if (gender === 2) {
-        strGender = 'Feminino'
-      }
-
-      return <p>Gênero: {strGender}</p>
-    }
-
-    return
-  }
-
-  renderAge = age => {
-    // In the database, 'age = 0' is the same as undefined
-    if (age && age !== 0) {
-      return <p>Idade: {age}</p>
-    }
-
-    return
-  }
-
-  /* ======== REACT METHODS ======== */
-
   render() {
     const { user } = this.state
-    this.getUser()
 
     return (
       <div>
