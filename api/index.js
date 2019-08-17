@@ -34,11 +34,10 @@ app.get('/', (req, res) => res.send('Pudim!'))
 
 // Import user routes
 app.use('/users', userRouter)
-app.use((req, res) => res.sendStatus(404))
-app.use((err, req, res, next) => res.sendStatus(500))
 
 // Import course routes
 app.use('/courses', courseRouter)
+
 app.use((req, res) => res.sendStatus(404))
 app.use((err, req, res, next) => res.sendStatus(500))
 
