@@ -65,7 +65,8 @@ router.get('/profile',
         res.json(results[0])
       }
     )
-  })
+  }
+)
 
 /* ===== USER LOGIN ===== */
 router.post('/login',
@@ -78,6 +79,7 @@ router.post('/login',
 
       res.send(`bearer ${token}`)
     })
-  })
+  }
+)
 
 module.exports = router
