@@ -7,6 +7,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt
 
 const userRouter = require('./routes/user.router')
 const autHandler = require('./handlers/authentication.handler')
+const courseRouter = require('./routes/course.router')
 
 const app = express()
 const port = 4000
@@ -33,6 +34,11 @@ app.get('/', (req, res) => res.send('Pudim!'))
 
 // Import user routes
 app.use('/users', userRouter)
+app.use((req, res) => res.sendStatus(404))
+app.use((err, req, res, next) => res.sendStatus(500))
+
+// Import course routes
+app.use('/courses', courseRouter)
 app.use((req, res) => res.sendStatus(404))
 app.use((err, req, res, next) => res.sendStatus(500))
 
