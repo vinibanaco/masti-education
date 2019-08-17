@@ -38,6 +38,7 @@ app.use('/users', userRouter)
 // Import course routes
 app.use('/courses', courseRouter)
 
+// Catch all and error handler
 app.use((req, res) => res.sendStatus(404))
 app.use((err, req, res, next) => res.sendStatus(500))
 
