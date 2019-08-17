@@ -1,6 +1,8 @@
 import React from 'react'
 import axios from 'axios'
 
+import TopMenu from '../TopMenu/TopMenu'
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props)
@@ -30,12 +32,9 @@ class Dashboard extends React.Component {
     const { user } = this.state
 
     return (
-      <div>
-        <p>Nome: {user.name}</p>
-        <p>Email: {user.email}</p>
-        {this.renderGender(user.gender)}
-        {this.renderAge(user.age)}
-      </div>
+      <React.Fragment>
+        <TopMenu user={user} />
+      </React.Fragment>
     )
   }
 }
