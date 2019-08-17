@@ -1,0 +1,37 @@
+:root {
+  --primary: #4eca5f;
+}
+
+.menu {
+  background-color: var(--primary);
+  color: #fff;
+  font-size: 16px;
+  position: relative;
+  padding: 15px 25px;
+  text-align: right;
+}
+
+.menuItemList {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  list-style: none;
+  text-transform: lowercase;
+  display: flex;
+}
+
+.menuItem {
+  color: inherit;
+  margin: 0 15px;
+}
+
+.menuItem:hover {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.dropdownItem {
+  padding: 5px 16px;
+}
