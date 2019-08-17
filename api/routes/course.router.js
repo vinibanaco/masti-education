@@ -17,7 +17,7 @@ router.get('/',
         return res.status(404).send('Curso não encontrado')
       }
 
-      res.json(results[0])
+      res.json(results)
     })
   }
 )
