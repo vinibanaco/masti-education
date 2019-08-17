@@ -28,7 +28,7 @@ class Dashboard extends React.Component {
 
   renderGender = gender => {
     // In the database, 'gender = 0' is the same as undefined
-    if (gender && gender !== 0) {
+    if (gender && gender !== "0") {
       let strGender = 'Masculino'
       if (gender === 2) {
         strGender = 'Feminino'
