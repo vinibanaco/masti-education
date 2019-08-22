@@ -63,8 +63,6 @@ class TopMenu extends React.Component {
       </Menu>
     )
 
-    const { } = css
-
     return (
       <header className={css.menu}>
         <nav>
