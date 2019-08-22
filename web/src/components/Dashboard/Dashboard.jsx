@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 
 import TopMenu from '../TopMenu/TopMenu'
+import Courses from '../Courses/Courses'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -34,6 +35,9 @@ class Dashboard extends React.Component {
     return (
       <React.Fragment>
         <TopMenu user={user} />
+        <main>
+          <Courses />
+        </main>
       </React.Fragment>
     )
   }
