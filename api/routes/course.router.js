@@ -28,12 +28,12 @@ router.get('/:id',
   (req, res, next) => {
     db.query(
       'SELECT * FROM course WHERE id=?',
-      [req.course.id],
+      [req.params.id],
       (err, results) => {
         if (err) {
           return next(err)
         }
-        res.send(results)
+        res.send(results[0])
       }
     )
   }
