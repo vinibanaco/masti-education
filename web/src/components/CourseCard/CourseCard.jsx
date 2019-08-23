@@ -1,5 +1,6 @@
 import React from 'react'
 import { Col, Card } from 'antd'
+import { withRouter } from 'react-router-dom'
 
 import css from './CourseCard.module.css'
 
@@ -9,7 +10,7 @@ class CourseCard extends React.Component {
   handleClick = () => {
     const { course } = this.props
 
-    console.log(course)
+    this.props.history.push(`/courses/${course.id}`)
   }
 
   render() {
@@ -33,4 +34,4 @@ class CourseCard extends React.Component {
   }
 }
 
-export default CourseCard
+export default withRouter(CourseCard)
