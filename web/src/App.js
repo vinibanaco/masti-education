@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import HomePage from './components/HomePage/HomePage'
 import Dashboard from './components/Dashboard/Dashboard'
+import CoursePage from './components/CoursePage/CoursePage'
 import './App.css'
 
 
@@ -12,6 +13,7 @@ function App() {
       <Switch>
         <Route path="/" component={HomePage} exact />
         <Route path="/dashboard" component={Dashboard} exact />
+        <Route path="/courses/:id" component={CoursePage} exact />
       </Switch>
     </BrowserRouter>
   );
