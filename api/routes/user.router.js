@@ -1,8 +1,9 @@
 const express = require('express')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
+
 const { db } = require('../database/db')
-const { secret } = require('../handlers/authentication.handler')
+const { secret, validatePermission } = require('../handlers/authentication.handler')
 
 const router = express.Router()
 
@@ -49,6 +50,7 @@ router.post('/', (req, res, next) => {
 /* ===== USER PROFILE ===== */
 router.get('/profile',
   passport.authenticate('jwt', { session: false }),
+  validatePermission,
   (req, res, next) => {
     db.query(
       'SELECT name, email, gender, age FROM user WHERE id=?',
