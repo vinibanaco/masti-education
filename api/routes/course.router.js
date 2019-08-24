@@ -1,12 +1,19 @@
 const express = require('express')
 const passport = require('passport')
+
 const { db } = require('../database/db')
+const { validatePermission } = require('../handlers/authentication.handler')
 
 const router = express.Router()
 
+const secure = [
+  passport.authenticate('jwt', { session: false }),
+  validatePermission
+]
+
 /* ===== GET ALL COURSES ===== */
 router.get('/',
-  passport.authenticate('jwt', { session: false }),
+  secure,
   (req, res, next) => {
     db.query('SELECT * FROM course', (err, results) => {
       if (err) {
@@ -24,7 +31,7 @@ router.get('/',
 
 /* ===== GET COURSE ===== */
 router.get('/:id',
-  passport.authenticate('jwt', { session: false }),
+  secure,
   (req, res, next) => {
     db.query(
       'SELECT * FROM course WHERE id=?',

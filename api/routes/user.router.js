@@ -7,6 +7,11 @@ const { secret, validatePermission } = require('../handlers/authentication.handl
 
 const router = express.Router()
 
+const secure = [
+  passport.authenticate('jwt', { session: false }),
+  validatePermission
+]
+
 /* ===== GET ALL USERS ===== */
 router.get('/', (req, res, next) => {
   db.query('SELECT * FROM user', (err, results) => {
@@ -49,8 +54,7 @@ router.post('/', (req, res, next) => {
 
 /* ===== USER PROFILE ===== */
 router.get('/profile',
-  passport.authenticate('jwt', { session: false }),
-  validatePermission,
+  secure,
   (req, res, next) => {
     db.query(
       'SELECT name, email, gender, age FROM user WHERE id=?',
