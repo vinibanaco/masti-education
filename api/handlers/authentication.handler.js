@@ -33,9 +33,17 @@ exports.validateJwt = (jwt_payload, done) => {
 }
 
 exports.validatePermission = (req, res, next) => {
-  const { roleId } = req.user
-  const { method } = req
-  const url = req.baseUrl + req.route.path
+  const {
+    user: { roleId } = {},
+    baseUrl,
+    method,
+    route: { path } = {}
+  } = req
+
+  let url = baseUrl
+  if (path !== '/') {
+    url += path
+  }
 
   db.query(`
     SELECT * FROM role_has_permission AS rhp
@@ -51,7 +59,7 @@ exports.validatePermission = (req, res, next) => {
         return res.sendStatus(403)
       }
 
-      return next()
+      next()
     }
   )
 }
