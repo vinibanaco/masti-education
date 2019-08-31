@@ -20,8 +20,12 @@ exports.validateBasic = (username, password, done) => {
 
       const user = {
         id: results[0].id,
-        roleId: results[0].roleId
+        roles: []
       }
+
+      results.forEach((result) => {
+        user.roles.push(result.roleId)
+      })
 
       return done(null, user)
     }
@@ -34,7 +38,7 @@ exports.validateJwt = (jwt_payload, done) => {
 
 exports.validatePermission = (req, res, next) => {
   const {
-    user: { roleId } = {},
+    user: { roles } = {},
     baseUrl,
     method,
     route: { path } = {}
@@ -48,8 +52,8 @@ exports.validatePermission = (req, res, next) => {
   db.query(`
     SELECT * FROM role_has_permission AS rhp
       INNER JOIN permission ON permission.id = rhp.permission_id
-      WHERE rhp.role_id=? AND permission.method=? AND permission.url=?`,
-    [roleId, method, url],
+      WHERE rhp.role_id IN (?) AND permission.method=? AND permission.url=?`,
+    [roles, method, url],
     (err, results) => {
       if (err) {
         return next(err)
