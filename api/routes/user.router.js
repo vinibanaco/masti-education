@@ -26,7 +26,6 @@ router.get('/',
 
 /* ===== CREATE USER ===== */
 router.post('/',
-  secure,
   (req, res, next) => {
     const newUser = req.body
     const { name, email, password, gender, age } = newUser
