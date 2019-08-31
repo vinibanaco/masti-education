@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { Menu, Dropdown, Icon, Button } from 'antd'
 
 import css from './TopMenu.module.css'
@@ -43,7 +44,7 @@ class TopMenu extends React.Component {
 
   logout = () => {
     localStorage.removeItem('token')
-    window.location.href = '/'
+    this.props.history.push('/')
   }
 
   /* ======== REACT METHODS ======== */
@@ -83,6 +84,12 @@ class TopMenu extends React.Component {
             </li>
           </ul>
           <div className={css.menuUser}>
+            <Button
+              ghost
+              size="small"
+              className={css.btnAdmin}
+              onClick={() => this.props.history.push('/admin')}
+            >admin</Button>
             <Dropdown overlay={dropdownUser}>
               <span style={{ cursor: 'default' }}>
                 Olá, {name} <Icon type="down" />
@@ -95,4 +102,4 @@ class TopMenu extends React.Component {
   }
 }
 
-export default TopMenu
+export default withRouter(TopMenu)

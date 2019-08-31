@@ -33,6 +33,30 @@
   text-decoration: underline;
 }
 
+.btnAdmin {
+  margin-right: 15px;
+}
+
+.btnAdmin,
+.btnAdmin:hover,
+.btnAdmin:active,
+.btnAdmin:focus {
+  color: #fff;
+  border-color: #fff;
+}
+
+.btnAdmin {
+  transition: opacity 0.4s;
+}
+
+.btnAdmin:hover {
+  opacity: 0.75;
+}
+
+.btnAdmin:focus {
+  opacity: 1;
+}
+
 .dropdownItem {
   padding: 5px 16px;
 }
