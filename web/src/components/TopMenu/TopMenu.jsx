@@ -42,6 +42,26 @@ class TopMenu extends React.Component {
     return
   }
 
+  renderAdminBtn = roles => {
+    if (roles) {
+      let adminBtn = null
+      roles.forEach(role => {
+        if (role === 2) {
+          adminBtn =
+            <Button
+              ghost
+              size="small"
+              className={css.btnAdmin}
+              onClick={() => this.props.history.push('/admin')}
+            >admin</Button>
+        }
+      })
+      return adminBtn
+    }
+
+    return
+  }
+
   logout = () => {
     localStorage.removeItem('token')
     this.props.history.push('/')
@@ -50,7 +70,7 @@ class TopMenu extends React.Component {
   /* ======== REACT METHODS ======== */
 
   render() {
-    const { user: { name, email, gender, age } = {} } = this.props
+    const { user: { name, email, gender, age, roles } = {} } = this.props
     const dropdownUser = (
       <Menu>
         {/* User data */}
@@ -84,12 +104,7 @@ class TopMenu extends React.Component {
             </li>
           </ul>
           <div className={css.menuUser}>
-            <Button
-              ghost
-              size="small"
-              className={css.btnAdmin}
-              onClick={() => this.props.history.push('/admin')}
-            >admin</Button>
+            {this.renderAdminBtn(roles)}
             <Dropdown overlay={dropdownUser}>
               <span style={{ cursor: 'default' }}>
                 Olá, {name} <Icon type="down" />
