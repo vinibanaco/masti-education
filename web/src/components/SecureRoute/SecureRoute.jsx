@@ -9,7 +9,7 @@ class SecureRoute extends React.Component {
       return this.props.children
     }
 
-    return <Redirect path='/' />
+    return <Redirect path="/" />
   }
 }
 
