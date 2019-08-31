@@ -41,10 +41,15 @@ class TopMenu extends React.Component {
     return
   }
 
+  logout = () => {
+    localStorage.removeItem('token')
+    window.location.href = '/'
+  }
+
   /* ======== REACT METHODS ======== */
 
   render() {
-    const { user: { name, email, gender, age } } = this.props
+    const { user: { name, email, gender, age } = {} } = this.props
     const dropdownUser = (
       <Menu>
         {/* User data */}
@@ -58,7 +63,13 @@ class TopMenu extends React.Component {
 
         {/* Logout button */}
         <div className={css.dropdownItem}>
-          <Button type="danger" shape="round" icon="logout" block>logout</Button>
+          <Button
+            block
+            type="danger"
+            shape="round"
+            icon="logout"
+            onClick={this.logout}
+          >logout</Button>
         </div>
       </Menu>
     )
