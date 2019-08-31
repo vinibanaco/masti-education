@@ -35,22 +35,22 @@ class CoursePage extends React.Component {
   /* ===== FUNCTIONS ===== */
 
   renderClasses = classes => {
-    let classData = null
-
+    let classesData = null
     if (classes) {
-      classes.forEach(courseClass => {
-        const { title, description, url } = courseClass
+      classesData = classes.map(courseClass => {
+        const { id, title, description, url } = courseClass
 
-        classData =
-          <React.Fragment>
+        return (
+          <div key={id}>
             <p>{title}</p>
             <p>{description}</p>
             <a href={url}>{url}</a>
-          </React.Fragment>
+          </div>
+        )
       })
     }
 
-    return classData
+    return classesData
   }
 
   render() {
@@ -75,10 +75,11 @@ class CoursePage extends React.Component {
           <p>{instructor}</p>
           <p>{formattedDuration}</p>
           <iframe width="560" height="315"
+            title="Vídeo de apresenção do curso"
             src={previewUrl}
-            frameborder="0"
+            frameBorder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
+            allowFullScreen
           ></iframe>
           {this.renderClasses(classes)}
         </main>
