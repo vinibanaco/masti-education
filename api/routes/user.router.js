@@ -27,8 +27,8 @@ router.get('/',
 /* ===== CREATE USER ===== */
 router.post('/',
   (req, res, next) => {
-    const newUser = req.body
-    const { name, email, password, gender, age } = newUser
+    const user = req.body
+    const { name, email, password, gender, age } = user
 
     db.query(
       'INSERT INTO user(name, email, password, gender, age) VALUES(?, ?, ?, ?, ?)',
@@ -38,18 +38,16 @@ router.post('/',
           return next(err)
         }
 
-        newUser.id = results.insertId
-        const user = {
-          id: newUser.id
-        }
+        user.id = results.insertId
+        user.roles = [1]
 
         jwt.sign(user, secret, (err, token) => {
           if (err) {
             return next(err)
           }
 
-          newUser.accessToken = `bearer ${token}`
-          res.status(201).json(newUser)
+          user.accessToken = `bearer ${token}`
+          res.status(201).json(user)
         })
       }
     )
