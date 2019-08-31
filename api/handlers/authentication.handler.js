@@ -45,7 +45,7 @@ exports.validatePermission = (req, res, next) => {
   } = req
 
   let url = baseUrl
-  if (path !== '/') {
+  if (path.slice(-1) !== '/') {
     url += path
   }
 
