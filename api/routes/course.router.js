@@ -107,14 +107,44 @@ router.post('/',
 router.get('/:id',
   secure,
   (req, res, next) => {
-    db.query(
-      'SELECT * FROM course WHERE id=?',
+    db.query(`
+      SELECT
+        c.title,
+        c.description,
+        c.instructor,
+        c.duration,
+        c.thumbnail,
+        c.preview_url AS previewUrl,
+        cl.id AS clId,
+        cl.title AS clTitle,
+        cl.description AS clDescription,
+        cl.url AS clUrl
+      FROM course c
+      LEFT JOIN class cl ON cl.course_id = c.id
+      WHERE c.id = ?`,
       [req.params.id],
       (err, results) => {
         if (err) {
           return next(err)
         }
-        res.send(results[0])
+
+        const { title, description, instructor, duration, thumbnail, previewUrl } = results[0]
+        const course = { title, description, instructor, duration, thumbnail, previewUrl }
+        course.classes = []
+
+        results.forEach(result => {
+          console.log(result)
+          const { clId, clTitle, clDescription, clUrl } = result
+          const tempClass = {
+            id: clId,
+            title: clTitle,
+            description: clDescription,
+            url: clUrl
+          }
+          course.classes.push(tempClass)
+        })
+
+        res.send(course)
       }
     )
   }
