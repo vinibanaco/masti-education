@@ -10,7 +10,7 @@ class CourseCard extends React.Component {
   handleClick = () => {
     const { course } = this.props
 
-    this.props.history.push(`/courses/${course.id}`)
+    this.props.history.push(`/cursos/${course.id}`)
   }
 
   render() {
