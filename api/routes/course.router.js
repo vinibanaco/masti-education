@@ -29,6 +29,80 @@ router.get('/',
   }
 )
 
+/* ===== CREATE COURSE ===== */
+router.post('/',
+  secure,
+  (req, res, next) => {
+    const newCourse = req.body
+    const {
+      title, description, instructor, duration, thumbnail, preview_url: previewUrl
+    } = newCourse
+
+    db.getConnection((err, connection) => {
+      if (err) {
+        return next(err)
+      }
+
+      // Creates a rollback point
+      connection.beginTransaction(err => {
+        if (err) {
+          return connection.rollback(() => {
+            connection.release()
+            next(err)
+          })
+        }
+
+        // Inserts the course
+        connection.query(
+          'INSERT INTO course(title, description, instructor, duration, thumbnail, preview_url) VALUES(?, ?, ?, ?, ?, ?)',
+          [title, description, instructor, duration, thumbnail, previewUrl],
+          (err, results) => {
+            if (err) {
+              return connection.rollback(() => {
+                connection.release()
+                next(err)
+              })
+            }
+
+            newCourse.id = results.insertId
+
+            const classesValues = newCourse.classes.map(courseClass => {
+              const { title, description, url } = courseClass
+              return [title, description, url, newCourse.id]
+            })
+
+            // Inserts the classes of the course
+            connection.query(
+              'INSERT INTO class(title, description, url, course_id) VALUES ?',
+              [classesValues],
+              err => {
+                if (err) {
+                  return connection.rollback(() => {
+                    connection.release()
+                    next(err)
+                  })
+                }
+
+                // Applies changes in database if has not any errors
+                connection.commit(err => {
+                  if (err) {
+                    return connection.rollback(() => {
+                      connection.release()
+                      next(err)
+                    })
+                  }
+
+                  res.status(201).json(newCourse)
+                })
+              }
+            )
+          }
+        )
+      })
+    })
+  }
+)
+
 /* ===== GET COURSE ===== */
 router.get('/:id',
   secure,
