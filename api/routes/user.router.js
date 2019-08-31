@@ -16,52 +16,55 @@ const secure = [
 router.get('/',
   secure,
   (req, res, next) => {
-  db.query('SELECT * FROM user', (err, results) => {
-    if (err) {
-      return next(err)
-    }
-    res.send(results)
+    db.query('SELECT * FROM user', (err, results) => {
+      if (err) {
+        return next(err)
+      }
+      res.send(results)
+    })
   })
-})
 
 /* ===== CREATE USER ===== */
 router.post('/',
   secure,
   (req, res, next) => {
-  const newUser = req.body
-  const { name, email, password, gender, age } = newUser
+    const newUser = req.body
+    const { name, email, password, gender, age } = newUser
 
-  db.query(
-    'INSERT INTO user(name, email, password, gender, age) VALUES(?, ?, ?, ?, ?)',
-    [name, email, password, gender || 0, age || 0],
-    (err, results) => {
-      if (err) {
-        return next(err)
-      }
-
-      newUser.id = results.insertId
-      const user = {
-        id: newUser.id
-      }
-
-      jwt.sign(user, secret, (err, token) => {
+    db.query(
+      'INSERT INTO user(name, email, password, gender, age) VALUES(?, ?, ?, ?, ?)',
+      [name, email, password, gender || 0, age || 0],
+      (err, results) => {
         if (err) {
           return next(err)
         }
 
-        newUser.accessToken = `bearer ${token}`
-        res.status(201).json(newUser)
-      })
-    }
-  )
-})
+        newUser.id = results.insertId
+        const user = {
+          id: newUser.id
+        }
+
+        jwt.sign(user, secret, (err, token) => {
+          if (err) {
+            return next(err)
+          }
+
+          newUser.accessToken = `bearer ${token}`
+          res.status(201).json(newUser)
+        })
+      }
+    )
+  })
 
 /* ===== USER PROFILE ===== */
 router.get('/profile',
   secure,
   (req, res, next) => {
-    db.query(
-      'SELECT name, email, gender, age FROM user WHERE id=?',
+    db.query(`
+      SELECT u.name, u.email, u.gender, u.age, r.id AS roleId FROM user u
+        LEFT JOIN user_has_role hr ON u.id = hr.user_id
+        LEFT JOIN role r ON r.id = hr.role_id
+        WHERE u.id = ?`,
       [req.user.id],
       (err, results) => {
         if (err) {
@@ -72,7 +75,15 @@ router.get('/profile',
           return res.status(404).send('Usuário não encontrado')
         }
 
-        res.json(results[0])
+        const { name, email, gender, age } = results[0]
+        const user = { name, email, gender, age }
+        user.roles = []
+
+        results.forEach(result => {
+          user.roles.push(result.roleId)
+        })
+
+        res.json(user)
       }
     )
   }
