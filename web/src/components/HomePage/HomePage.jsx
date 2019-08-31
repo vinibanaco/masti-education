@@ -4,7 +4,6 @@ import { Button, Modal } from 'antd'
 import css from './HomePage.module.css'
 import LoginForm from '../LoginForm/LoginForm'
 import RegistrationForm from '../RegistrationForm/RegistrationForm'
-import { name } from '../../variables.js'
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -49,7 +48,7 @@ class HomePage extends React.Component {
   render() {
     return (
       <div className={css.heroContainer}>
-        <h1 className={css.heroTitle}>Bem-vindo à {name}</h1>
+        <h1 className={css.heroTitle}>Bem-vindo à Jamini</h1>
         <p className={css.heroSubtitle}>O repositório de conhecimentos da Masti Education!</p>
 
         <div className={css.heroBtnContainer}>
