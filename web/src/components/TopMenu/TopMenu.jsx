@@ -1,10 +1,33 @@
 import React from 'react'
+import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import { Menu, Dropdown, Icon, Button } from 'antd'
 
 import css from './TopMenu.module.css'
 
 class TopMenu extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      user: {}
+    }
+  }
+
+  componentDidMount() {
+    const payload = {
+      headers: { 'Authorization': localStorage.getItem('token') }
+    }
+
+    axios.get('http://localhost:4000/users/profile', payload)
+      .then(response => {
+        this.setState({ user: response.data })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   /* ======== FUNCTIONS ======== */
 
   renderGender = gender => {
@@ -70,7 +93,7 @@ class TopMenu extends React.Component {
   /* ======== REACT METHODS ======== */
 
   render() {
-    const { user: { name, email, gender, age, roles } = {} } = this.props
+    const { user: { name, email, gender, age, roles } = {} } = this.state
     const dropdownUser = (
       <Menu>
         {/* User data */}

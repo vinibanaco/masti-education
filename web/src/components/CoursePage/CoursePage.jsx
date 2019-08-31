@@ -10,7 +10,6 @@ class CoursePage extends React.Component {
     super(props)
 
     this.state = {
-      user: {},
       course: {}
     }
   }
@@ -20,14 +19,6 @@ class CoursePage extends React.Component {
       headers: { 'Authorization': localStorage.getItem('token') }
     }
     const { id } = this.props.match.params
-
-    axios.get('http://localhost:4000/users/profile', payload)
-      .then(response => {
-        this.setState({ user: response.data })
-      })
-      .catch(err => {
-        console.log(err)
-      })
 
     const self = this
     axios.get(`http://localhost:4000/courses/${id}`, payload)
@@ -64,7 +55,6 @@ class CoursePage extends React.Component {
 
   render() {
     const {
-      user,
       course: {
         title, description, instructor, duration, previewUrl, classes
       } = {}
@@ -78,7 +68,7 @@ class CoursePage extends React.Component {
         {/* Criar componente 404 */}
         {/* Estilizar essa página */}
         {/* Adicionar loading ao card */}
-        <TopMenu user={user} />
+        <TopMenu />
         <main>
           <p>{title}</p>
           <p>{description}</p>
