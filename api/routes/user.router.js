@@ -13,7 +13,9 @@ const secure = [
 ]
 
 /* ===== GET ALL USERS ===== */
-router.get('/', (req, res, next) => {
+router.get('/',
+  secure,
+  (req, res, next) => {
   db.query('SELECT * FROM user', (err, results) => {
     if (err) {
       return next(err)
@@ -23,7 +25,9 @@ router.get('/', (req, res, next) => {
 })
 
 /* ===== CREATE USER ===== */
-router.post('/', (req, res, next) => {
+router.post('/',
+  secure,
+  (req, res, next) => {
   const newUser = req.body
   const { name, email, password, gender, age } = newUser
 
