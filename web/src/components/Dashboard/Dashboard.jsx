@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 
+import SecureRoute from '../SecureRoute/SecureRoute'
 import TopMenu from '../TopMenu/TopMenu'
 import Courses from '../Courses/Courses'
 
@@ -33,12 +34,12 @@ class Dashboard extends React.Component {
     const { user } = this.state
 
     return (
-      <React.Fragment>
+      <SecureRoute>
         <TopMenu user={user} />
         <main>
           <Courses />
         </main>
-      </React.Fragment>
+      </SecureRoute>
     )
   }
 }

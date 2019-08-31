@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 
+import SecureRoute from '../SecureRoute/SecureRoute'
 import TopMenu from '../TopMenu/TopMenu'
 
 class CoursePage extends React.Component {
@@ -48,7 +49,7 @@ class CoursePage extends React.Component {
     } = this.state
 
     return (
-      <React.Fragment>
+      <SecureRoute>
         <TopMenu user={user} />
         <main>
           <p>{title}</p>
@@ -58,7 +59,7 @@ class CoursePage extends React.Component {
           <p>{thumbnail}</p>
           <p>{preview_url}</p>
         </main>
-      </React.Fragment>
+      </SecureRoute>
     )
   }
 }
