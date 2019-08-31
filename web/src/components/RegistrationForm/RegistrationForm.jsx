@@ -219,9 +219,9 @@ class BaseForm extends React.Component {
         <Form.Item label="Gênero">
           {getFieldDecorator('gender')(
             <Select onChange={this.handleSelectChange}>
-              <Option value="Masculino">Masculino</Option>
-              <Option value="Feminino">Feminino</Option>
-              <Option value="Prefiro não divulgar">
+              <Option value="1">Masculino</Option>
+              <Option value="2">Feminino</Option>
+              <Option value="0">
                 Prefiro não divulgar
               </Option>
             </Select>
