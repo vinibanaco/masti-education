@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import moment from 'moment'
 
 import SecureRoute from '../SecureRoute/SecureRoute'
 import TopMenu from '../TopMenu/TopMenu'
@@ -40,24 +41,56 @@ class CoursePage extends React.Component {
       })
   }
 
+  /* ===== FUNCTIONS ===== */
+
+  renderClasses = classes => {
+    let classData = null
+
+    if (classes) {
+      classes.forEach(courseClass => {
+        const { title, description, url } = courseClass
+
+        classData =
+          <React.Fragment>
+            <p>{title}</p>
+            <p>{description}</p>
+            <a href={url}>{url}</a>
+          </React.Fragment>
+      })
+    }
+
+    return classData
+  }
+
   render() {
     const {
       user,
       course: {
-        title, description, instructor, duration, thumbnail, preview_url
+        title, description, instructor, duration, previewUrl, classes
       } = {}
     } = this.state
 
+    const formattedDuration = moment.utc(duration * 1000).format('HH [horas e] mm [minutos]')
+
     return (
       <SecureRoute>
+        {/* Colocar menu no roteador */}
+        {/* Criar componente 404 */}
+        {/* Estilizar essa página */}
+        {/* Adicionar loading ao card */}
         <TopMenu user={user} />
         <main>
           <p>{title}</p>
           <p>{description}</p>
           <p>{instructor}</p>
-          <p>{duration}</p>
-          <p>{thumbnail}</p>
-          <p>{preview_url}</p>
+          <p>{formattedDuration}</p>
+          <iframe width="560" height="315"
+            src={previewUrl}
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+          {this.renderClasses(classes)}
         </main>
       </SecureRoute>
     )
