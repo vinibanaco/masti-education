@@ -32,10 +32,10 @@ passport.use(new JwtStrategy(options, autHandler.validateJwt))
 /* ===== HOME ===== */
 app.get('/', (req, res) => res.send('Pudim!'))
 
-// Import user routes
+// Imports user routes
 app.use('/users', userRouter)
 
-// Import course routes
+// Imports course routes
 app.use('/courses', courseRouter)
 
 // Catch all and error handler

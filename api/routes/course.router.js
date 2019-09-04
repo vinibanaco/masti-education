@@ -53,8 +53,9 @@ router.post('/',
         }
 
         // Inserts the course
-        connection.query(
-          'INSERT INTO course(title, description, instructor, duration, thumbnail, preview_url) VALUES(?, ?, ?, ?, ?, ?)',
+        connection.query(`
+          INSERT INTO course(title, description, instructor, duration, thumbnail, preview_url)
+            VALUES(?, ?, ?, ?, ?, ?)`,
           [title, description, instructor, duration, thumbnail, previewUrl],
           (err, results) => {
             if (err) {
@@ -133,7 +134,6 @@ router.get('/:id',
         course.classes = []
 
         results.forEach(result => {
-          console.log(result)
           const { clId, clTitle, clDescription, clUrl } = result
           const tempClass = {
             id: clId,
