@@ -25,33 +25,70 @@ router.get('/',
   })
 
 /* ===== CREATE USER ===== */
-router.post('/',
-  (req, res, next) => {
-    const user = req.body
-    const { name, email, password, gender, age } = user
+router.post('/', (req, res, next) => {
+  const user = req.body
+  const { name, email, password, gender, age } = user
 
-    db.query(
-      'INSERT INTO user(name, email, password, gender, age) VALUES(?, ?, ?, ?, ?)',
-      [name, email, password, gender || 0, age || 0],
-      (err, results) => {
-        if (err) {
-          return next(err)
-        }
+  db.getConnection((err, connection) => {
+    if (err) {
+      return next(err)
+    }
 
-        user.id = results.insertId
-        user.roles = [1]
+    const rollback = () => {
+      connection.rollback(() => {
+        connection.release()
+        next(err)
+      })
+    }
 
-        jwt.sign(user, secret, (err, token) => {
+    // Creates a rollback point
+    connection.beginTransaction(err => {
+      if (err) {
+        return rollback
+      }
+
+      // Inserts the user
+      connection.query(
+        'INSERT INTO user(name, email, password, gender, age) VALUES(?, ?, ?, ?, ?)',
+        [name, email, password, gender || 0, age || 0],
+        (err, results) => {
           if (err) {
-            return next(err)
+            return rollback
           }
 
-          user.accessToken = `bearer ${token}`
-          res.status(201).json(user)
-        })
-      }
-    )
+          user.id = results.insertId
+          user.roles = [1]
+
+          // Inserts the user role
+          connection.query(
+            `INSERT INTO user_has_role(user_id, role_id) VALUES(${user.id}, 1)`,
+            err => {
+              if (err) {
+                return rollback
+              }
+
+              connection.commit(err => {
+                if (err) {
+                  return rollback
+                }
+
+                // Login
+                jwt.sign(user, secret, (err, token) => {
+                  if (err) {
+                    return next(err)
+                  }
+
+                  user.accessToken = `bearer ${token}`
+                  res.status(201).json(user)
+                })
+              })
+            }
+          )
+        }
+      )
+    })
   })
+})
 
 /* ===== USER PROFILE ===== */
 router.get('/profile',
