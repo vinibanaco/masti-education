@@ -60,7 +60,32 @@ class CoursePage extends React.Component {
       } = {}
     } = this.state
 
-    const formattedDuration = moment.utc(duration * 1000).format('HH [horas e] mm [minutos]')
+    let hours = '', concat = '', minutes = ''
+
+    const ONE_HOUR = 3600
+    const ONE_MINUTE = 60
+
+    if (duration >= ONE_HOUR) {
+      hours = 'H [hora'
+      if (Math.floor(duration / ONE_HOUR) > 1) {
+        hours += 's'
+      }
+      hours += ']'
+    }
+
+    if (duration % ONE_HOUR !== 0) {
+      if (duration > ONE_HOUR) {
+        concat = ' [e] '
+      }
+
+      minutes = 'm [minuto'
+      if (duration - Math.floor(duration / ONE_HOUR) * ONE_HOUR !== ONE_MINUTE) {
+        minutes += 's'
+      }
+      minutes += ']'
+    }
+
+    const formattedDuration = moment.utc(duration * 1000).format(hours + concat + minutes)
 
     return (
       <SecureRoute>
