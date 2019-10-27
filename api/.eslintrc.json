@@ -1,20 +1,20 @@
 {
-    "env": {
-        "node": true,
-        "commonjs": true,
-        "es6": true
-    },
-    "rules": {
-        "no-unused-vars": [
-            "error",
-            {
-                "argsIgnorePattern": "next"
-            }
-        ]
-    },
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "ecmaVersion": 2018,
-        "sourceType": "module"
-    }
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "es6": true
+  },
+  "rules": {
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "next"
+      }
+    ]
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  }
 }

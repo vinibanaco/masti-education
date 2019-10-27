@@ -1,12 +1,11 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import HomePage from './components/HomePage/HomePage'
-import Dashboard from './components/Dashboard/Dashboard'
-import CoursePage from './components/CoursePage/CoursePage'
-import AdminPage from './components/AdminPage/AdminPage'
-import './App.css'
-
+import HomePage from './components/HomePage/HomePage';
+import Dashboard from './components/Dashboard/Dashboard';
+import CoursePage from './components/CoursePage/CoursePage';
+import AdminPage from './components/AdminPage/AdminPage';
+import './App.css';
 
 function App() {
   return (
