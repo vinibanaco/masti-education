@@ -4,15 +4,8 @@
     "commonjs": true,
     "es6": true
   },
-  "rules": {
-    "no-unused-vars": [
-      "error",
-      {
-        "argsIgnorePattern": "next"
-      }
-    ]
-  },
-  "extends": "eslint:recommended",
+  "rules": {},
+  "extends": ["eslint:recommended", "prettier"],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module"
