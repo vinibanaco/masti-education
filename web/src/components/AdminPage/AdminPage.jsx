@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import SecureRoute from '../SecureRoute/SecureRoute'
-import TopMenu from '../TopMenu/TopMenu'
-import CreateCourse from '../CreateCourse/CreateCourse'
+import SecureRoute from '../SecureRoute/SecureRoute';
+import TopMenu from '../TopMenu/TopMenu';
+// import CreateCourse from '../CreateCourse/CreateCourse';
 
 class AdminPage extends React.Component {
   render() {
@@ -10,11 +10,12 @@ class AdminPage extends React.Component {
       <SecureRoute>
         <TopMenu />
         <main>
-          <CreateCourse />
+          {/* <CreateCourse /> */}
+          <p>Criar curso</p>
         </main>
       </SecureRoute>
-    )
+    );
   }
 }
 
-export default AdminPage
+export default AdminPage;

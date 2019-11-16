@@ -1,44 +1,47 @@
-import React from 'react'
-import axios from 'axios'
-import moment from 'moment'
+import React from 'react';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import moment from 'moment';
 
-import SecureRoute from '../SecureRoute/SecureRoute'
-import TopMenu from '../TopMenu/TopMenu'
+import SecureRoute from '../SecureRoute/SecureRoute';
+import TopMenu from '../TopMenu/TopMenu';
 
 class CoursePage extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      course: {}
-    }
+      course: {},
+    };
   }
 
   componentDidMount() {
+    const { match } = this.props;
     const payload = {
-      headers: { 'Authorization': localStorage.getItem('token') }
-    }
-    const { id } = this.props.match.params
+      headers: { Authorization: localStorage.getItem('token') },
+    };
+    const { id } = match.params;
 
-    const self = this
-    axios.get(`http://localhost:4000/courses/${id}`, payload)
-      .then(response => {
+    const self = this;
+    axios
+      .get(`http://localhost:4000/courses/${id}`, payload)
+      .then((response) => {
         self.setState({
-          course: response.data
-        })
+          course: response.data,
+        });
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   /* ===== FUNCTIONS ===== */
 
-  renderClasses = classes => {
-    let classesData = null
+  renderClasses = (classes) => {
+    let classesData = null;
     if (classes) {
-      classesData = classes.map(courseClass => {
-        const { id, title, description, url } = courseClass
+      classesData = classes.map((courseClass) => {
+        const { id, title, description, url } = courseClass;
 
         return (
           <div key={id}>
@@ -46,71 +49,73 @@ class CoursePage extends React.Component {
             <p>{description}</p>
             <a href={url}>{url}</a>
           </div>
-        )
-      })
+        );
+      });
     }
 
-    return classesData
-  }
+    return classesData;
+  };
 
   render() {
     const {
-      course: {
-        title, description, instructor, duration, previewUrl, classes
-      } = {}
-    } = this.state
+      course: { title, description, instructor, duration, previewUrl, classes } = {},
+    } = this.state;
 
-    let hours = '', concat = '', minutes = ''
+    let hours = '';
+    let concat = '';
+    let minutes = '';
 
-    const ONE_HOUR = 3600
-    const ONE_MINUTE = 60
+    const ONE_HOUR = 3600;
+    const ONE_MINUTE = 60;
 
     if (duration >= ONE_HOUR) {
-      hours = 'H [hora'
+      hours = 'H [hora';
       if (Math.floor(duration / ONE_HOUR) > 1) {
-        hours += 's'
+        hours += 's';
       }
-      hours += ']'
+      hours += ']';
     }
 
     if (duration % ONE_HOUR !== 0) {
       if (duration > ONE_HOUR) {
-        concat = ' [e] '
+        concat = ' [e] ';
       }
 
-      minutes = 'm [minuto'
+      minutes = 'm [minuto';
       if (duration - Math.floor(duration / ONE_HOUR) * ONE_HOUR !== ONE_MINUTE) {
-        minutes += 's'
+        minutes += 's';
       }
-      minutes += ']'
+      minutes += ']';
     }
 
-    const formattedDuration = moment.utc(duration * 1000).format(hours + concat + minutes)
+    const formattedDuration = moment.utc(duration * 1000).format(hours + concat + minutes);
 
     return (
       <SecureRoute>
-        {/* Colocar menu no roteador */}
-        {/* Criar componente 404 */}
-        {/* Estilizar essa página */}
-        {/* Adicionar loading ao card */}
         <TopMenu />
         <main>
           <p>{title}</p>
           <p>{description}</p>
           <p>{instructor}</p>
           <p>{formattedDuration}</p>
-          <iframe width="560" height="315"
+          <iframe
+            width="560"
+            height="315"
             title="Vídeo de apresenção do curso"
             src={previewUrl}
             frameBorder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
-          ></iframe>
+          />
           {this.renderClasses(classes)}
         </main>
       </SecureRoute>
-    )
+    );
   }
 }
 
-export default CoursePage
+export default CoursePage;
+
+CoursePage.propTypes = {
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
+};

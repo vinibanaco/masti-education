@@ -1,51 +1,53 @@
-import React from 'react'
-import { Button, Modal } from 'antd'
+import React from 'react';
+import { Button, Modal } from 'antd';
 
-import css from './HomePage.module.css'
-import LoginForm from '../LoginForm/LoginForm'
-import RegistrationForm from '../RegistrationForm/RegistrationForm'
+import css from './HomePage.module.css';
+import LoginForm from '../LoginForm/LoginForm';
+import RegistrationForm from '../RegistrationForm/RegistrationForm';
 
 class HomePage extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       isModalLoginVisible: false,
       isModalRegistrationVisible: false,
-    }
+    };
   }
 
   /* ======== LOGIN ======== */
 
   handleClickLogin = () => {
     this.setState({
-      isModalLoginVisible: true
-    })
-  }
+      isModalLoginVisible: true,
+    });
+  };
 
   handleModalLoginClose = () => {
     this.setState({
-      isModalLoginVisible: false
-    })
-  }
+      isModalLoginVisible: false,
+    });
+  };
 
   /* ======== REGISTRATION ======== */
 
   handleClickRegistration = () => {
     this.setState({
-      isModalRegistrationVisible: true
-    })
-  }
+      isModalRegistrationVisible: true,
+    });
+  };
 
   handleModalRegistrationClose = () => {
     this.setState({
-      isModalRegistrationVisible: false
-    })
-  }
+      isModalRegistrationVisible: false,
+    });
+  };
 
   /* ======== REACT METHODS ======== */
 
   render() {
+    const { isModalRegistrationVisible, isModalLoginVisible } = this.state;
+
     return (
       <div className={css.heroContainer}>
         <h1 className={css.heroTitle}>Bem-vindo à Jamini</h1>
@@ -58,13 +60,15 @@ class HomePage extends React.Component {
             size="large"
             className={css.heroBtn}
             onClick={this.handleClickLogin}
-          >Acessar o repositório</Button>
+          >
+            Acessar o repositório
+          </Button>
 
           <Modal
             title="LOGIN"
             centered
             footer={null}
-            visible={this.state.isModalLoginVisible}
+            visible={isModalLoginVisible}
             onCancel={this.handleModalLoginClose}
             bodyStyle={{ fontSize: '16px' }}
             wrapClassName={css.modal}
@@ -78,13 +82,15 @@ class HomePage extends React.Component {
             size="large"
             className={css.heroBtn}
             onClick={this.handleClickRegistration}
-          >Criar uma conta</Button>
+          >
+            Criar uma conta
+          </Button>
 
           <Modal
             title="CADASTRO"
             centered
             footer={null}
-            visible={this.state.isModalRegistrationVisible}
+            visible={isModalRegistrationVisible}
             onCancel={this.handleModalRegistrationClose}
             bodyStyle={{ fontSize: '16px' }}
             wrapClassName={css.modal}
@@ -93,8 +99,8 @@ class HomePage extends React.Component {
           </Modal>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default HomePage
+export default HomePage;

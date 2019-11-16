@@ -1,97 +1,109 @@
-import React from 'react'
-import axios from 'axios'
-import { withRouter } from 'react-router-dom'
-import { Form, Input, Select, InputNumber, Button } from 'antd'
+import React from 'react';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import { withRouter } from 'react-router-dom';
+import { Form, Input, Select, InputNumber, Button } from 'antd';
 
 class BaseForm extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       emailConfirmDirty: false,
-      passwordConfirmDirty: false
-    }
+      passwordConfirmDirty: false,
+    };
   }
 
   /* ======== VALIDATION ======== */
 
   validateToNextEmail = (_, value, callback) => {
-    const { form } = this.props
-    if (value && this.state.emailConfirmDirty) {
-      form.validateFields(['confirmEmail'], { force: true })
+    const { emailConfirmDirty } = this.state;
+    const { form } = this.props;
+
+    if (value && emailConfirmDirty) {
+      form.validateFields(['confirmEmail'], { force: true });
     }
-    callback()
-  }
+    callback();
+  };
 
   compareToFirstEmail = (_, value, callback) => {
-    const { form } = this.props
+    const { form } = this.props;
     if (value && value !== form.getFieldValue('email')) {
-      callback('Os emails estão diferentes')
+      callback('Os emails estão diferentes');
     } else {
-      callback()
+      callback();
     }
-  }
+  };
 
   validateToNextPassword = (_, value, callback) => {
-    const { form } = this.props
-    if (value && this.state.passwordConfirmDirty) {
-      form.validateFields(['confirmPassword'], { force: true })
+    const { passwordConfirmDirty } = this.state;
+    const { form } = this.props;
+
+    if (value && passwordConfirmDirty) {
+      form.validateFields(['confirmPassword'], { force: true });
     }
-    callback()
-  }
+
+    callback();
+  };
 
   compareToFirstPassword = (_, value, callback) => {
-    const { form } = this.props
+    const { form } = this.props;
     if (value && value !== form.getFieldValue('password')) {
-      callback('As senhas estão diferentes')
+      callback('As senhas estão diferentes');
     }
-    callback()
-  }
+    callback();
+  };
 
   /* ======== VERIFICATION ======== */
 
   verifyAge = (_, value, callback) => {
     if (value < 0 || value > 120) {
-      callback('Ensira uma idade válida')
+      callback('Ensira uma idade válida');
     }
-    callback()
-  }
+    callback();
+  };
 
   /* ======== HANDLES ======== */
 
   // Retira o estilo de erro do campo caso este tenha sido corrigido
-  handleConfirmPasswordBlur = e => {
-    const { value } = e.target
-    this.setState({
-      passwordConfirmDirty: this.state.passwordConfirmDirty || !!value
-    })
-  }
+  handleConfirmPasswordBlur = (e) => {
+    const { passwordConfirmDirty } = this.state;
+    const { value } = e.target;
 
-  handleConfirmEmailBlur = e => {
-    const { value } = e.target
     this.setState({
-      emailConfirmDirty: this.state.emailConfirmDirty || !!value
-    })
-  }
+      passwordConfirmDirty: passwordConfirmDirty || !!value,
+    });
+  };
 
-  handleSubmit = e => {
-    e.preventDefault()
+  handleConfirmEmailBlur = (e) => {
+    const { emailConfirmDirty } = this.state;
+    const { value } = e.target;
+
+    this.setState({
+      emailConfirmDirty: emailConfirmDirty || !!value,
+    });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
 
     // Revalida os campos obrigatórios do formulário
-    this.props.form.validateFields((err, values) => {
+    const { form, history } = this.props;
+    form.validateFields((err, values) => {
       if (!err) {
-        axios.post('http://localhost:4000/users', values)
-          .then(response => {
-            localStorage.setItem('token', response.data.accessToken)
+        axios
+          .post('http://localhost:4000/users', values)
+          .then((response) => {
+            localStorage.setItem('token', response.data.accessToken);
 
-            this.props.history.push('/dashboard', values)
+            history.push('/dashboard', values);
           })
-          .catch(err => {
-            console.log(err)
-          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
-    })
-  }
+    });
+  };
 
   /* ======== REACT METHODS ======== */
 
@@ -104,8 +116,8 @@ class BaseForm extends React.Component {
       wrapperCol: {
         xs: { span: 24 },
         sm: { span: 16 },
-      }
-    }
+      },
+    };
     const buttonFormItemLayout = {
       wrapperCol: {
         xs: {
@@ -116,28 +128,33 @@ class BaseForm extends React.Component {
           span: 16,
           offset: 8,
         },
-      }
-    }
+      },
+    };
 
-    const { Option } = Select
-    const { getFieldDecorator } = this.props.form
+    const { Option } = Select;
+    const {
+      form: { getFieldDecorator },
+    } = this.props;
 
     return (
-      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-
+      <Form
+        labelCol={formItemLayout.labelCol}
+        wrapperCol={formItemLayout.wrapperCol}
+        onSubmit={this.handleSubmit}
+      >
         {/* Name */}
         <Form.Item label="Nome">
           {getFieldDecorator('name', {
             rules: [
               {
                 required: true,
-                message: 'Campo obrigatório'
+                message: 'Campo obrigatório',
               },
               {
                 max: 50,
-                message: 'Ensira uma senha com no máximo 50 caracteres'
-              }
-            ]
+                message: 'Ensira uma senha com no máximo 50 caracteres',
+              },
+            ],
           })(<Input />)}
         </Form.Item>
 
@@ -151,16 +168,16 @@ class BaseForm extends React.Component {
               },
               {
                 max: 255,
-                message: 'Ensira um email com no máximo 255 caracteres'
+                message: 'Ensira um email com no máximo 255 caracteres',
               },
               {
                 type: 'email',
-                message: 'Ensira um email válido'
+                message: 'Ensira um email válido',
               },
               {
                 validator: this.validateToNextEmail,
-              }
-            ]
+              },
+            ],
           })(<Input />)}
         </Form.Item>
         <Form.Item label="Confirmar email">
@@ -168,12 +185,12 @@ class BaseForm extends React.Component {
             rules: [
               {
                 required: true,
-                message: 'Campo obrigatório'
+                message: 'Campo obrigatório',
               },
               {
-                validator: this.compareToFirstEmail
-              }
-            ]
+                validator: this.compareToFirstEmail,
+              },
+            ],
           })(<Input onBlur={this.handleConfirmEmailBlur} />)}
         </Form.Item>
 
@@ -183,20 +200,20 @@ class BaseForm extends React.Component {
             rules: [
               {
                 required: true,
-                message: 'Campo obrigatório'
+                message: 'Campo obrigatório',
               },
               {
                 min: 8,
-                message: 'Ensira uma senha com pelo menos 8 caracteres'
+                message: 'Ensira uma senha com pelo menos 8 caracteres',
               },
               {
                 max: 50,
-                message: 'Ensira uma senha com no máximo 50 caracteres'
+                message: 'Ensira uma senha com no máximo 50 caracteres',
               },
               {
-                validator: this.validateToNextPassword
-              }
-            ]
+                validator: this.validateToNextPassword,
+              },
+            ],
           })(<Input.Password />)}
         </Form.Item>
         <Form.Item label="Confirmar senha">
@@ -204,15 +221,13 @@ class BaseForm extends React.Component {
             rules: [
               {
                 required: true,
-                message: 'Campo obrigatório'
+                message: 'Campo obrigatório',
               },
               {
-                validator: this.compareToFirstPassword
-              }
-            ]
-          })(
-            <Input.Password onBlur={this.handleConfirmPasswordBlur} />
-          )}
+                validator: this.compareToFirstPassword,
+              },
+            ],
+          })(<Input.Password onBlur={this.handleConfirmPasswordBlur} />)}
         </Form.Item>
 
         {/* Gender */}
@@ -221,10 +236,8 @@ class BaseForm extends React.Component {
             <Select onChange={this.handleSelectChange}>
               <Option value="1">Masculino</Option>
               <Option value="2">Feminino</Option>
-              <Option value="0">
-                Prefiro não divulgar
-              </Option>
-            </Select>
+              <Option value="0">Prefiro não divulgar</Option>
+            </Select>,
           )}
         </Form.Item>
 
@@ -236,25 +249,27 @@ class BaseForm extends React.Component {
                 type: 'number',
                 min: 1,
                 max: 119,
-                message: 'Ensira uma idade válida'
-              }
-            ]
-          })(
-            <InputNumber
-              style={{ width: '100%' }}
-              onChange={this.handleNumberChange}
-            />
-          )}
+                message: 'Ensira uma idade válida',
+              },
+            ],
+          })(<InputNumber style={{ width: '100%' }} onChange={this.handleNumberChange} />)}
         </Form.Item>
 
         {/* Registration Button */}
         <Form.Item {...buttonFormItemLayout}>
-          <Button type="primary" htmlType="submit">Cadastrar</Button>
+          <Button type="primary" htmlType="submit">
+            Cadastrar
+          </Button>
         </Form.Item>
       </Form>
-    )
+    );
   }
 }
 
-const RegistrationForm = Form.create({ name: 'registration' })(BaseForm)
-export default withRouter(RegistrationForm)
+const RegistrationForm = Form.create({ name: 'registration' })(BaseForm);
+export default withRouter(RegistrationForm);
+
+BaseForm.propTypes = {
+  form: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+};
