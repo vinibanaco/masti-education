@@ -2,17 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
-class SecureRoute extends React.Component {
-  render() {
-    const token = localStorage.getItem('token');
-    const { children } = this.props;
+function SecureRoute({ children }) {
+  const token = localStorage.getItem('token');
 
-    if (token) {
-      return children;
-    }
-
-    return <Redirect path="/" />;
+  if (token) {
+    return <>{children}</>;
   }
+
+  return <Redirect to="/" />;
 }
 
 export default SecureRoute;

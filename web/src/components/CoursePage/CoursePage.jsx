@@ -4,7 +4,6 @@ import axios from 'axios';
 import moment from 'moment';
 
 import SecureRoute from '../SecureRoute/SecureRoute';
-import TopMenu from '../TopMenu/TopMenu';
 
 class CoursePage extends React.Component {
   constructor(props) {
@@ -92,7 +91,6 @@ class CoursePage extends React.Component {
 
     return (
       <SecureRoute>
-        <TopMenu />
         <main>
           <p>{title}</p>
           <p>{description}</p>
