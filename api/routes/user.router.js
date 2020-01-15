@@ -103,6 +103,7 @@ router.get('/profile', secure, (req, res, next) => {
         return res.status(404).send('Usuário não encontrado');
       }
 
+      if (results.length > 0) {
       const { name, email, gender, age } = results[0];
       const user = { name, email, gender, age };
       user.roles = [];
@@ -112,6 +113,9 @@ router.get('/profile', secure, (req, res, next) => {
       });
 
       res.json(user);
+      }
+
+      return null;
     },
   );
 });

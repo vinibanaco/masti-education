@@ -125,6 +125,7 @@ router.get('/:id', secure, (req, res, next) => {
         return next(err);
       }
 
+      if (results.length > 0) {
       const { title, description, instructor, duration, thumbnail, previewUrl } = results[0];
       const course = { title, description, instructor, duration, thumbnail, previewUrl };
       course.classes = [];
@@ -141,6 +142,9 @@ router.get('/:id', secure, (req, res, next) => {
       });
 
       res.send(course);
+      }
+
+      return null;
     },
   );
 });
