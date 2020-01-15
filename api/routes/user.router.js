@@ -104,15 +104,12 @@ router.get('/profile', secure, (req, res, next) => {
       }
 
       if (results.length > 0) {
-      const { name, email, gender, age } = results[0];
-      const user = { name, email, gender, age };
-      user.roles = [];
+        const { name, email, gender, age } = results[0];
+        const user = { name, email, gender, age };
 
-      results.forEach((result) => {
-        user.roles.push(result.roleId);
-      });
+        user.roles = results.map((result) => result.roleId);
 
-      res.json(user);
+        res.json(user);
       }
 
       return null;

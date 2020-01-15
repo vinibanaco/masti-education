@@ -126,22 +126,20 @@ router.get('/:id', secure, (req, res, next) => {
       }
 
       if (results.length > 0) {
-      const { title, description, instructor, duration, thumbnail, previewUrl } = results[0];
-      const course = { title, description, instructor, duration, thumbnail, previewUrl };
-      course.classes = [];
+        const { title, description, instructor, duration, thumbnail, previewUrl } = results[0];
+        const course = { title, description, instructor, duration, thumbnail, previewUrl };
 
-      results.forEach((result) => {
-        const { clId, clTitle, clDescription, clUrl } = result;
-        const tempClass = {
-          id: clId,
-          title: clTitle,
-          description: clDescription,
-          url: clUrl,
-        };
-        course.classes.push(tempClass);
-      });
+        course.classes = results.map((result) => {
+          const { clId, clTitle, clDescription, clUrl } = result;
+          return {
+            id: clId,
+            title: clTitle,
+            description: clDescription,
+            url: clUrl,
+          };
+        });
 
-      res.send(course);
+        res.send(course);
       }
 
       return null;
